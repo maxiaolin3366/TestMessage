@@ -30,7 +30,7 @@ public class ProtocolLogin {
     }
 
     public void login() throws Exception{
-
+        System.out.println("用户登陆");
         protocolData.setCmd((byte) 1);
         protocolData.setType((byte) 1);
         protocolData.setOpt((byte) 8);
@@ -38,7 +38,7 @@ public class ProtocolLogin {
         JSONObject content = new JSONObject();
         content.put("SNUM", "88888888");
         content.put("SVER", "FFFFFF");
-        content.put("USER", "13382824334");
+        content.put("USER", SysInfo.getUsername());
         content.put("LINK", SysInfo.getLink());
         ob.put("DATA", content);
         byte[] send = sendMessage.sendMessage(protocolData, ob);
@@ -64,7 +64,7 @@ public class ProtocolLogin {
 
                 byte[] passs = info.getBytes("utf-8");
                 byte[] rondByte;
-                String passwords = "mima123";
+                String passwords = SysInfo.getPassworld();
                 byte[] password = passwords.getBytes("utf-8");
                 if (password.length <= passs.length) {
                     rondByte = passs;
@@ -92,7 +92,7 @@ public class ProtocolLogin {
                 JSONObject obj = new JSONObject();
                 JSONObject INFO = new JSONObject();
                 INFO.put("CODE", ron);
-                INFO.put("USER", "13382824334");
+                INFO.put("USER", SysInfo.getUsername());
                 obj.put("DATA", INFO);
 
                 send = sendMessage.sendMessage(protocolData, obj);
@@ -114,6 +114,7 @@ public class ProtocolLogin {
                 rets = Integer.parseInt(ret);
                 System.out.println("消息返回正确-->");
                 if (JsonAnalysis.getValue(data, "LINK") != null) {
+                    System.out.println("用户登陆成功-->");
                     String link = JsonAnalysis.getValue(data, "LINK");
                     int links = Integer.parseInt(link);
                     SysInfo.setLink(links);
@@ -127,7 +128,7 @@ public class ProtocolLogin {
         protocolData.setOpt((byte) 8);
         JSONObject object = new JSONObject();
         JSONObject json = new JSONObject();
-        json.put("USER", "13382824334");
+        json.put("USER", SysInfo.getUsername());
         json.put("LINK", SysInfo.getLink());//
         object.put("DATA", json);
         byte[] send = sendMessage.sendMessage(protocolData, object);
@@ -143,12 +144,13 @@ public class ProtocolLogin {
     }
 
     public void keepAlive() throws Exception{
+        System.out.println("保活协议发送成功-->");
         protocolData.setCmd((byte) 1);
         protocolData.setType((byte) 6);
         protocolData.setOpt((byte) 8);
         JSONObject object = new JSONObject();
         JSONObject json = new JSONObject();
-        json.put("USER", "13382824334");
+        json.put("USER", SysInfo.getUsername());
         json.put("LINK", SysInfo.getLink());
         object.put("DATA", json);
         byte[] send = sendMessage.sendMessage(protocolData, null);
