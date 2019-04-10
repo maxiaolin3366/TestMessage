@@ -52,14 +52,16 @@ public class ProtocolLogin {
             int ack = SysInfo.getAck();
             SysInfo.setAck(++ack);
             rShow = new ReceiveShow(receive);
-            rShow.show();
+            Thread thread = new Thread(rShow);
+            thread.start();
+            Thread.sleep(1000);
             String data = rShow.getDATA();
             data = JsonAnalysis.getValue(data, "DATA");
             String ret = JsonAnalysis.getValue(data, "RET");
             int rets = Integer.parseInt(ret);
             String info = null;
             if (rets == 1) {
-                System.out.println("是登陆验证-->");
+                System.out.println("验证登陆-->");
                 info = JsonAnalysis.getValue(data, "INFO");
 
                 byte[] passs = info.getBytes("utf-8");
@@ -107,7 +109,9 @@ public class ProtocolLogin {
                 ack = SysInfo.getAck();
                 SysInfo.setAck(++ack);
                 rShow = new ReceiveShow(receive);
-                rShow.show();
+                Thread thread2 = new Thread(rShow);
+                thread2.start();
+                Thread.sleep(1000);
                 data = rShow.getDATA();
                 data = JsonAnalysis.getValue(data, "DATA");
                 ret = JsonAnalysis.getValue(data, "RET");
@@ -123,6 +127,7 @@ public class ProtocolLogin {
     }
 
     public void logout() throws Exception {
+        System.out.println("登出成功-->");
         protocolData.setCmd((byte) 1);
         protocolData.setType((byte) 5);
         protocolData.setOpt((byte) 8);
@@ -164,7 +169,9 @@ public class ProtocolLogin {
             ack = SysInfo.getAck();
             SysInfo.setAck(++ack);
         rShow = new ReceiveShow(receive);
-        rShow.show();
+        Thread thread = new Thread(rShow);
+        thread.start();
+        Thread.sleep(1000);
 
 
     }

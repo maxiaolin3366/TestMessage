@@ -8,6 +8,7 @@ import java.util.Scanner;
 import com.test.protocol.ProtocolAccount;
 import com.test.protocol.ProtocolLogin;
 import com.test.workbean.SysInfo;
+import com.test.workbean.Timer;
 
 
 public class StartConnect {
@@ -31,12 +32,15 @@ public class StartConnect {
 		try {
 			account.userReg();// 用户注册
 			login.login();
-			login.keepAlive();
-			login.logout();
+			if(SysInfo.getLink()!=0){
+			Timer timer = new Timer(port, address, socket);
+			Thread thread = new Thread(timer);
+			thread.start();
+//			login.logout();
+			}
 		}catch (Exception e){
 			e.printStackTrace();
 		}finally {
-			socket.close();
 		}
 	}
 	

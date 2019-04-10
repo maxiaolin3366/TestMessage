@@ -13,6 +13,7 @@ import net.sf.json.JSONObject;
 public class ProtocolTest {
 
 	public byte[] sendMessage(ProtocolData protocolData,JSONObject obj) {
+		System.out.println("账户测试协议-->");
 		// TODO Auto-generated method stub
 		byte[] send = null;
 		try {

@@ -65,7 +65,9 @@ public class ProtocolAccount {
         int ack = SysInfo.getAck();
         SysInfo.setAck(++ack);
         rShow = new ReceiveShow(receive);
-        rShow.show();
+        Thread thread = new Thread(rShow);
+        thread.start();
+        Thread.sleep(1000);
         String data = rShow.getDATA();
         String data2 = JsonAnalysis.getValue(data,"DATA");
         String ret = JsonAnalysis.getValue(data2,"RET");
@@ -73,6 +75,12 @@ public class ProtocolAccount {
             System.out.println("用户注册成功-->");
             String sid = JsonAnalysis.getValue(data2,"INFO");
             SysInfo.setSid(Integer.parseInt(sid));
+        }else if(ret.equals("1")){
+            System.out.println("账户已经存在-->");
+            String sid = JsonAnalysis.getValue(data2,"INFO");
+            SysInfo.setSid(Integer.parseInt(sid));
+        }else{
+            System.out.println("账户注册出错-->");
         }
     }
 
@@ -109,7 +117,8 @@ public class ProtocolAccount {
         int ack = SysInfo.getAck();
         SysInfo.setAck(++ack);
         rShow = new ReceiveShow(receive);
-        rShow.show();
+        Thread thread = new Thread(rShow);
+        thread.start();
         String data = rShow.getDATA();
         String data2 = JsonAnalysis.getValue(data,"DATA");
         String ret = JsonAnalysis.getValue(data2,"RET");
@@ -117,7 +126,14 @@ public class ProtocolAccount {
             System.out.println("用户注册成功-->");
             String sid = JsonAnalysis.getValue(data2,"INFO");
             SysInfo.setSid(Integer.parseInt(sid));
+        }else if(ret.equals("1")){
+            System.out.println("账户已经存在-->");
+            String sid = JsonAnalysis.getValue(data2,"INFO");
+            SysInfo.setSid(Integer.parseInt(sid));
+        }else{
+            System.out.println("账户注册出错-->");
         }
+
     }
 }
 
