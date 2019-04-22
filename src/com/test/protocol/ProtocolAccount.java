@@ -15,8 +15,6 @@ import net.sf.json.JSONObject;
 
 public class ProtocolAccount {
     ProtocolData protocolData = new ProtocolData();
-    int ack;
-    int seq;
     ProtocolBase sendMessage = new ProtocolBase();
     DatagramPacket packetSend;
     DatagramPacket packetReceive;
@@ -117,8 +115,9 @@ public class ProtocolAccount {
         int ack = SysInfo.getAck();
         SysInfo.setAck(++ack);
         rShow = new ReceiveShow(receive);
-        Thread thread = new Thread(rShow);
-        thread.start();
+//        Thread thread = new Thread(rShow);
+//        thread.start();
+        rShow.run();
         String data = rShow.getDATA();
         String data2 = JsonAnalysis.getValue(data,"DATA");
         String ret = JsonAnalysis.getValue(data2,"RET");
